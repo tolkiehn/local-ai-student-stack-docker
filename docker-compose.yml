@@ -7,6 +7,8 @@ services:
       - "11434:11434"
     volumes:
       - ollama_data:/root/.ollama
+    networks:
+      - local-ai-network
 
   open-webui:
     image: ghcr.io/open-webui/open-webui:main
@@ -17,20 +19,46 @@ services:
       OLLAMA_BASE_URL: http://ollama:11434
     depends_on:
       - ollama
+    networks:
+      - local-ai-network
 
   langflow:
-    image: langflowai/langflow
-    container_name: langflow
+    image: langflowai/langflow:latest
+    container_name: local-ai-langflow
+    restart: unless-stopped
+
     ports:
-      - "7860:7860"
-    depends_on:
-      - ollama
+      - "${LANGFLOW_PORT:-7860}:7860"
+
+    environment:
+      LANGFLOW_HOST: "0.0.0.0"
+      LANGFLOW_PORT: "7860"
+      LANGFLOW_SUPERUSER: "${LANGFLOW_SUPERUSER}"
+      LANGFLOW_SUPERUSER_PASSWORD: "${LANGFLOW_SUPERUSER_PASSWORD}"
+      LANGFLOW_AUTO_LOGIN: "${LANGFLOW_AUTO_LOGIN:-false}"
+      LANGFLOW_SSRF_ALLOWED_HOSTS: "ollama,chromadb"
+
+    volumes:
+      - langflow_data:/app/langflow
+
+    networks:
+      - local-ai-network
 
   chromadb:
     image: chromadb/chroma
     container_name: chromadb
     ports:
       - "8000:8000"
+    networks: # <-- ADD THIS
+      - local-ai-network
+
 
 volumes:
   ollama_data:
+  open_webui_data:
+  langflow_data:
+  chroma_data:
+
+networks:
+  local-ai-network:
+    name: local-ai-network
