@@ -1,0 +1,36 @@
+{
+  "name": "Simple RAG Flow",
+  "description": "Chat Input -> Ollama -> Chat Output",
+  "nodes": [
+    {
+      "id": "chat_input",
+      "type": "ChatInput"
+    },
+    {
+      "id": "prompt",
+      "type": "Prompt"
+    },
+    {
+      "id": "ollama",
+      "type": "Ollama"
+    },
+    {
+      "id": "chat_output",
+      "type": "ChatOutput"
+    }
+  ],
+  "edges": [
+    {
+      "source": "chat_input",
+      "target": "prompt"
+    },
+    {
+      "source": "prompt",
+      "target": "ollama"
+    },
+    {
+      "source": "ollama",
+      "target": "chat_output"
+    }
+  ]
+}
