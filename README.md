@@ -143,7 +143,7 @@ https://git-scm.com/downloads
 ```bash
 git clone https://github.com/tolkiehn/local-ai-infrastructure.git
 
-cd local-ai-infrastructure
+cd local-ai-student-stack-docker
 ```
 
 ---
