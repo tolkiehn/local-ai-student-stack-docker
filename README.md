@@ -141,7 +141,7 @@ https://git-scm.com/downloads
 ## 1. Clone Repository
 
 ```bash
-git clone https://github.com/YOUR_ORGANISATION/local-ai-infrastructure.git
+git clone https://github.com/tolkiehn/local-ai-infrastructure.git
 
 cd local-ai-infrastructure
 ```
